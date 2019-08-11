@@ -9,6 +9,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -17,6 +18,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        web {}
+        baidu {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [CHANNEL_VALUE: name, JPUSH_CHANNEL: name]
+    }
+
+    //自定义APK名称,多渠道打包
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            variant.productFlavors.each { flavor ->
+                def channel = variant.productFlavors[0].name.startsWith("_") ? variant.productFlavors[0].name.substring(1) : variant.productFlavors[0].name
+                def fileName = "v${defaultConfig.versionName}_${releaseTime()}_${channel}.apk"
+                if (buildType == "release") {
+                    fileName = "v${defaultConfig.versionName}_${releaseTime()}_${channel}.apk"
+                }
+                output.outputFileName = fileName
+            }
+        }
+    }
+}
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {
