@@ -8,6 +8,7 @@
         </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../Gradle/gradle-4.4-all.zip" />
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
